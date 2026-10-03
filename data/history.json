@@ -1,0 +1,142 @@
+[
+{
+"cycle": "2026-09-29T00:00Z",
+"prob": 0.0051,
+"level": "none",
+"ivt": 37.7,
+"ar_now": false
+},
+{
+"cycle": "2026-09-29T06:00Z",
+"prob": 0.0009,
+"level": "none",
+"ivt": 33.2,
+"ar_now": false
+},
+{
+"cycle": "2026-09-29T12:00Z",
+"prob": 0.0004,
+"level": "none",
+"ivt": 24.9,
+"ar_now": false
+},
+{
+"cycle": "2026-09-29T18:00Z",
+"prob": 0.0003,
+"level": "none",
+"ivt": 14.1,
+"ar_now": false
+},
+{
+"cycle": "2026-09-30T00:00Z",
+"prob": 0.001,
+"level": "none",
+"ivt": 1.2,
+"ar_now": false
+},
+{
+"cycle": "2026-09-30T06:00Z",
+"prob": 0.0025,
+"level": "none",
+"ivt": 7.8,
+"ar_now": false
+},
+{
+"cycle": "2026-09-30T12:00Z",
+"prob": 0.0029,
+"level": "none",
+"ivt": 10.4,
+"ar_now": false
+},
+{
+"cycle": "2026-09-30T18:00Z",
+"prob": 0.0018,
+"level": "none",
+"ivt": 6.7,
+"ar_now": false
+},
+{
+"cycle": "2026-10-01T00:00Z",
+"prob": 0.0005,
+"level": "none",
+"ivt": 4.2,
+"ar_now": false
+},
+{
+"cycle": "2026-10-01T06:00Z",
+"prob": 0.0007,
+"level": "none",
+"ivt": 2.3,
+"ar_now": false
+},
+{
+"cycle": "2026-10-01T12:00Z",
+"prob": 0.0003,
+"level": "none",
+"ivt": 2.1,
+"ar_now": false
+},
+{
+"cycle": "2026-10-01T18:00Z",
+"prob": 0.0004,
+"level": "none",
+"ivt": 2.4,
+"ar_now": false
+},
+{
+"cycle": "2026-10-02T00:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 4.2,
+"ar_now": false
+},
+{
+"cycle": "2026-10-02T06:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 4.5,
+"ar_now": false
+},
+{
+"cycle": "2026-10-02T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 4.2,
+"ar_now": false
+},
+{
+"cycle": "2026-10-02T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 1.8,
+"ar_now": false
+},
+{
+"cycle": "2026-10-03T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 1.2,
+"ar_now": false
+},
+{
+"cycle": "2026-10-03T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 1.1,
+"ar_now": false
+},
+{
+"cycle": "2026-10-03T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 3.9,
+"ar_now": false
+},
+{
+"cycle": "2026-10-03T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 2.5,
+"ar_now": false
+}
+]

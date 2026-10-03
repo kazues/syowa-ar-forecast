@@ -1,0 +1,86 @@
+{
+ "cycle": "2026-10-03T18:00Z",
+ "valid_from": "2026-10-03T18:00Z",
+ "valid_to": "2026-10-04T18:00Z",
+ "issued": "2026-10-03T21:40Z",
+ "prob": 0.0,
+ "prob_seeds": [
+  0.0,
+  0.0,
+  0.0
+ ],
+ "level": "none",
+ "thresholds": {
+  "watch": 0.0402,
+  "warning": 0.4098
+ },
+ "threshold_stats": {
+  "watch": {
+   "threshold": 0.04,
+   "CSI": 0.302,
+   "POD": 0.858,
+   "precision": 0.318,
+   "alert_rate": 0.123
+  },
+  "warning": {
+   "threshold": 0.41,
+   "CSI": 0.384,
+   "POD": 0.437,
+   "precision": 0.761,
+   "alert_rate": 0.026
+  }
+ },
+ "base_rate": 0.0426,
+ "syowa": {
+  "ivt": 2.5,
+  "iwv": 0.87,
+  "v850": -3.9,
+  "ar_now": false
+ },
+ "attention_by_var": {
+  "u300": 0.182,
+  "z1000": 0.142,
+  "w700": 0.134,
+  "mask": 0.131,
+  "u850": 0.114,
+  "z500": 0.11,
+  "v850": 0.101,
+  "t850": 0.086
+ },
+ "map": "maps/2026100318.png",
+ "model": {
+  "version": "y24-31903e4",
+  "uses_mask": true,
+  "test_scores": {
+   "ROC_AUC": 0.9569,
+   "PR_AUC": 0.5902,
+   "BSS": 0.3827,
+   "PR_AUC_95": "0.523–0.648",
+   "BSS_95": "0.323–0.436"
+  },
+  "test_period": [
+   2018,
+   2023
+  ],
+  "train_years": [
+   2000,
+   2014
+  ],
+  "target": "昭和基地の格子（69°S, 39.6°E 付近）が今 AR でないとき、次の 24 時間以内に AR が来る確率",
+  "mask_method": {
+   "ivt": "correct",
+   "mode": "anomaly",
+   "lat_range": [
+    0,
+    -90
+   ],
+   "weight": "simple",
+   "frac": 0.3,
+   "min_length": 2000.0,
+   "min_aspect": 2.0,
+   "min_mean_ivt": 100.0,
+   "validated": "ERA5 2019-01 (1 か月): CNN 領域の CSI 0.983 / GFS 2021-06〜2023-12 の 27 時刻: 20–90S の CSI 0.801, CNN 領域の CSI 0.823"
+  }
+ },
+ "source": "NOAA GFS 1° analysis (f000)"
+}

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>昭和基地 AR 到来予測</title>
+<meta name="description" content="GFS 解析と深層学習による、南極昭和基地への大気の川（AR）到来確率（研究用の試験運用）">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1b2430; --sub:#5b6675; --line:#e2e6eb;
+  --accent:#2f6fb2; --none:#5b8c5a; --watch:#c98a12; --warn:#c2412d; --grid:#edf0f3;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12161c; --card:#1b212a; --ink:#e7ebf0; --sub:#9aa6b4; --line:#2c3440;
+  --accent:#6aa6e6; --none:#7fb77e; --watch:#e0a83a; --warn:#ef6b55; --grid:#232a34; } }
+:root[data-theme="dark"]{
+  --bg:#12161c; --card:#1b212a; --ink:#e7ebf0; --sub:#9aa6b4; --line:#2c3440;
+  --accent:#6aa6e6; --none:#7fb77e; --watch:#e0a83a; --warn:#ef6b55; --grid:#232a34; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:20px 16px 48px}
+header h1{font-size:1.45rem;margin:0 0 2px;letter-spacing:.02em}
+header p{margin:0;color:var(--sub);font-size:.9rem}
+.tag{display:inline-block;font-size:.75rem;border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin-left:6px;color:var(--sub);vertical-align:middle}
+.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-top:16px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h2{font-size:1rem;margin:0 0 10px}
+.big{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.prob{font-size:3.6rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.badge{font-weight:700;border-radius:8px;padding:4px 12px;color:#fff;font-size:.95rem}
+.lv-none{background:var(--none)} .lv-watch{background:var(--watch)} .lv-warning{background:var(--warn)}
+.muted{color:var(--sub);font-size:.88rem}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:12px 0 0}
+dl.kv dt{color:var(--sub)} dl.kv dd{margin:0;font-variant-numeric:tabular-nums}
+.bars div{display:grid;grid-template-columns:70px 1fr 44px;align-items:center;gap:8px;font-size:.85rem;margin:3px 0}
+.bars span.b{height:10px;background:var(--accent);border-radius:5px;display:block}
+.full{margin-top:16px}
+svg text{fill:var(--sub);font-size:11px}
+img.map{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#fff}
+.note{border-left:4px solid var(--warn);padding:10px 14px;background:var(--card);border-radius:8px;margin-top:16px;font-size:.9rem}
+footer{margin-top:24px;color:var(--sub);font-size:.8rem}
+footer a,.card a{color:var(--accent)}
+#err{display:none;color:var(--warn)}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>昭和基地 大気の川（AR）到来予測 <span class="tag">研究用・試験運用</span></h1>
+  <p>Syowa Station Atmospheric River Outlook — GFS analysis + CNN trained on ERA5 (experimental)</p>
+</header>
+
+<p id="err">データを読み込めませんでした。しばらくしてから再読み込みしてください。</p>
+
+<div class="grid">
+  <section class="card">
+    <h2>次の 24 時間に AR が来る確率</h2>
+    <div class="big"><span class="prob" id="prob">–</span><span class="badge" id="badge">–</span></div>
+    <p class="muted" id="period">–</p>
+    <p class="muted" id="base">–</p>
+    <dl class="kv">
+      <dt>解析時刻</dt><dd id="cycle">–</dd>
+      <dt>計算時刻</dt><dd id="issued">–</dd>
+      <dt>昭和の IVT</dt><dd id="ivt">–</dd>
+      <dt>昭和の可降水量</dt><dd id="iwv">–</dd>
+      <dt>昭和の南北風 850 hPa</dt><dd id="v850">–</dd>
+      <dt id="arnow_dt">いま AR か</dt><dd id="arnow">–</dd>
+    </dl>
+  </section>
+  <section class="card">
+    <h2>モデルが重視した要素（今回の予測）</h2>
+    <div class="bars" id="bars"></div>
+    <p class="muted">入力勾配×入力の大きさを要素ごとに合計した割合。v850：南北風、u300：上層ジェット、z500 / z1000：高度場、w700：鉛直流、t850：気温、mask：AR マスク。</p>
+  </section>
+</div>
+
+<section class="card full">
+  <h2>過去 30 日の予測確率</h2>
+  <svg id="chart" viewBox="0 0 1000 260" width="100%" role="img" aria-label="過去30日の予測確率の推移"></svg>
+  <p class="muted">破線：注意・警戒の目安。灰色の帯：昭和基地の IVT（右軸）。</p>
+</section>
+
+<section class="card full">
+  <h2>解析場と注目箇所</h2>
+  <a id="maplink" target="_blank" rel="noopener"><img class="map" id="map" alt="GFS 解析の IVT、500 hPa 高度、850 hPa 南北風と、モデルが注目した場所の地図"></a>
+  <p class="muted">画像を押すと拡大します。左上：水蒸気輸送量（IVT）。右上：500 hPa 高度と平年差。左下：850 hPa 南北風（負が極向き）と 1000 hPa 高度。右下：モデルが注目した場所。★：昭和基地。</p>
+</section>
+
+<div class="grid">
+  <section class="card">
+    <h2>このモデルについて</h2>
+    <p>ERA5 再解析（2000–2014 年）の気圧面の場（z500, z1000, t850, u850, v850, w700, u300）<span id="maskdesc"></span>から、昭和基地の格子が「いま AR でないとき、次の 24 時間以内に AR が来るか」を学習した畳み込みニューラルネットワーク（3 つの学習結果の平均）です。運用では、NOAA GFS の 1° の解析値を使い、学習時と同じ平年値で偏差にして入力しています。<span id="maskop"></span></p>
+    <p id="perf" class="muted"></p>
+  </section>
+  <section class="card">
+    <h2>目安の段階</h2>
+    <p id="thdesc" class="muted"></p>
+    <p class="muted">学習は ERA5、運用は GFS です。2021–2023 年の 80 時刻で両者を比べたところ、確率の相関は 0.99 で、段階の判定は 99 % 一致しました。GFS では、確率が高い場面でやや低め（平均で約 0.03）に出ます。</p>
+  </section>
+</div>
+
+<div class="note"><b>ご注意</b>：これは研究目的の試験的な情報で、公式の気象予報・警報ではありません。観測や野外行動の判断には、気象庁および観測隊気象担当の公式な情報を使ってください。This is an experimental research product, not an official forecast.</div>
+
+<footer>
+  <p>データ：NOAA/NCEP Global Forecast System（GFS）解析値。学習データ：ERA5（Hersbach et al., 2020）— Contains modified Copernicus Climate Change Service information. AR マスク：Takahashi et al.（2026）。運用時の AR 検出：Takahashi and Sakazaki（2025, JMSJ）の手法を論文の記述に基づいて実装。</p>
+  <p id="ver"></p>
+</footer>
+</main>
+
+<script>
+const LV = {none:["平常","lv-none"], watch:["注意","lv-watch"], warning:["警戒","lv-warning"]};
+const pct = p => p < 0.01 ? "1% 未満" : (p*100).toFixed(p < 0.1 ? 1 : 0) + "%";
+const fmt = s => { const d = new Date(s.replace("Z",":00Z")); const lst = new Date(d.getTime()+3*3600e3);
+  const f = x => x.toISOString().slice(0,16).replace("T"," ");
+  return `${f(d)} UTC（昭和 ${f(lst).slice(5)} LST）`; };
+
+async function load(){
+  const bust = "?t=" + Date.now();
+  const [L, H] = await Promise.all([fetch("data/latest.json"+bust).then(r=>r.json()), fetch("data/history.json"+bust).then(r=>r.json())]);
+  document.getElementById("prob").textContent = pct(L.prob);
+  const b = document.getElementById("badge"); b.textContent = LV[L.level][0]; b.className = "badge " + LV[L.level][1];
+  document.getElementById("period").textContent = `対象期間：${fmt(L.valid_from)} 〜 ${fmt(L.valid_to)}`;
+  document.getElementById("base").textContent = `平常時の平均的な確率は約 ${pct(L.base_rate)}（テスト期間）。シードごと：${L.prob_seeds.map(pct).join(" / ")}`;
+  document.getElementById("cycle").textContent = fmt(L.cycle);
+  document.getElementById("issued").textContent = fmt(L.issued);
+  document.getElementById("ivt").textContent = `${L.syowa.ivt} kg m⁻¹ s⁻¹`;
+  document.getElementById("iwv").textContent = `${L.syowa.iwv} kg m⁻²`;
+  document.getElementById("v850").textContent = `${L.syowa.v850} m/s（負：極向き）`;
+  if (L.syowa.ar_now === null){ document.getElementById("arnow_dt").style.display="none"; document.getElementById("arnow").style.display="none"; }
+  else document.getElementById("arnow").textContent = L.syowa.ar_now ? "AR 中（確率は AR でないときを前提）" : "AR ではない";
+  const bars = document.getElementById("bars"); const mx = Math.max(...Object.values(L.attention_by_var));
+  bars.innerHTML = Object.entries(L.attention_by_var).map(([k,v]) =>
+    `<div><span>${k}</span><span class="b" style="width:${(v/mx*100).toFixed(0)}%"></span><span>${(v*100).toFixed(0)}%</span></div>`).join("");
+  document.getElementById("map").src = "data/" + L.map + bust; document.getElementById("maplink").href = "data/" + L.map;
+  document.getElementById("maskdesc").textContent = L.model.uses_mask ? " と AR マスク（Takahashi et al. 2026）" : "";
+  if (L.model.uses_mask) document.getElementById("maskop").textContent = " AR マスクは、GFS の IVT に Takahashi and Sakazaki（2025）の手法（論文の記述に基づく実装）をかけて作っています。";
+  const ts = L.model.test_scores;
+  document.getElementById("perf").textContent = `テスト期間 ${L.model.test_period.join("–")} 年の成績（ERA5 入力）：PR-AUC ${(+ts.PR_AUC).toFixed(2)}［95%: ${ts.PR_AUC_95}］、ブライアスキルスコア ${(+ts.BSS).toFixed(2)}（月別気候値に対して）。`;
+  const S = L.threshold_stats;
+  document.getElementById("thdesc").innerHTML =
+    `<b>注意</b>：確率 ${pct(L.thresholds.watch)} 以上。検証期間（2015–2017）で的中率 ${pct(S.watch.precision)}、捕捉率 ${pct(S.watch.POD)}。<br>`+
+    `<b>警戒</b>：確率 ${pct(L.thresholds.warning)} 以上。的中率 ${pct(S.warning.precision)}、捕捉率 ${pct(S.warning.POD)}。`;
+  document.getElementById("ver").textContent = `モデル ${L.model.version} ／ ${L.source}`;
+  chart(H, L.thresholds);
+}
+
+function chart(H, th){
+  const svg = document.getElementById("chart"), W=1000, Hh=260, m={l:44,r:48,t:10,b:26};
+  if (!H.length) return;
+  const t = H.map(h => new Date(h.cycle.replace("Z",":00Z")).getTime());
+  const t0 = Math.min(...t), t1 = Math.max(...t, t0+864e5);
+  const ymax = Math.max(0.5, ...H.map(h=>h.prob))*1.05, ivmax = Math.max(200, ...H.map(h=>h.ivt));
+  const X = v => m.l + (v-t0)/(t1-t0)*(W-m.l-m.r), Y = v => Hh-m.b - v/ymax*(Hh-m.t-m.b), Yi = v => Hh-m.b - v/ivmax*(Hh-m.t-m.b);
+  let s = "";
+  for (let k=0;k<=5;k++){ const v=ymax*k/5; s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${m.l-6}" y="${Y(v)+4}" text-anchor="end">${(v*100).toFixed(0)}%</text>`; }
+  for (let d=Math.ceil(t0/864e5)*864e5; d<=t1; d+=864e5*5){ s+=`<text x="${X(d)}" y="${Hh-6}" text-anchor="middle">${new Date(d).toISOString().slice(5,10)}</text>`; }
+  s += `<polyline fill="none" stroke="var(--line)" stroke-width="6" stroke-linejoin="round" opacity=".9" points="${H.map((h,i)=>`${X(t[i])},${Yi(h.ivt)}`).join(" ")}"/>`;
+  s += `<text x="${W-m.r+6}" y="${m.t+10}">IVT ${ivmax.toFixed(0)}</text>`;
+  [["watch","var(--watch)"],["warning","var(--warn)"]].forEach(([k,c]) => { if (th[k] < ymax) s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(th[k])}" y2="${Y(th[k])}" stroke="${c}" stroke-dasharray="6 5"/>`; });
+  s += `<polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${H.map((h,i)=>`${X(t[i])},${Y(h.prob)}`).join(" ")}"/>`;
+  H.forEach((h,i) => { const c = h.level==="warning"?"var(--warn)":h.level==="watch"?"var(--watch)":"var(--accent)";
+    s += `<circle cx="${X(t[i])}" cy="${Y(h.prob)}" r="${h.level==="none"?2.2:3.6}" fill="${c}"><title>${h.cycle} ${(h.prob*100).toFixed(1)}%</title></circle>`;
+    if (h.ar_now) s += `<rect x="${X(t[i])-2}" y="${Hh-m.b-6}" width="4" height="6" fill="var(--warn)"/>`; });
+  svg.innerHTML = s;
+}
+load().catch(e => { console.error(e); document.getElementById("err").style.display = "block"; });
+</script>
+</body>
+</html>
