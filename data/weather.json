@@ -1,0 +1,375 @@
+{
+ "provider": "ifs",
+ "cycle": "2026-10-10T18:00Z",
+ "issued": "2026-10-11T00:55Z",
+ "series": [
+  {
+   "step": 0,
+   "valid": "2026-10-10T18:00Z",
+   "prob": 0.676,
+   "level": "likely",
+   "sf_mm": null,
+   "tp_mm": null
+  },
+  {
+   "step": 6,
+   "valid": "2026-10-11T00:00Z",
+   "prob": 0.1874,
+   "level": "none",
+   "sf_mm": 0.494,
+   "tp_mm": 0.492
+  },
+  {
+   "step": 12,
+   "valid": "2026-10-11T06:00Z",
+   "prob": 0.1111,
+   "level": "none",
+   "sf_mm": 0.03,
+   "tp_mm": 0.034
+  },
+  {
+   "step": 18,
+   "valid": "2026-10-11T12:00Z",
+   "prob": 0.035,
+   "level": "none",
+   "sf_mm": 0.001,
+   "tp_mm": 0.0
+  },
+  {
+   "step": 24,
+   "valid": "2026-10-11T18:00Z",
+   "prob": 0.0101,
+   "level": "none",
+   "sf_mm": 0.004,
+   "tp_mm": 0.008
+  },
+  {
+   "step": 30,
+   "valid": "2026-10-12T00:00Z",
+   "prob": 0.0196,
+   "level": "none",
+   "sf_mm": 0.008,
+   "tp_mm": 0.0
+  },
+  {
+   "step": 36,
+   "valid": "2026-10-12T06:00Z",
+   "prob": 0.0136,
+   "level": "none",
+   "sf_mm": 0.01,
+   "tp_mm": 0.015
+  },
+  {
+   "step": 42,
+   "valid": "2026-10-12T12:00Z",
+   "prob": 0.0105,
+   "level": "none",
+   "sf_mm": 0.004,
+   "tp_mm": 0.0
+  },
+  {
+   "step": 48,
+   "valid": "2026-10-12T18:00Z",
+   "prob": 0.0119,
+   "level": "none",
+   "sf_mm": 0.0,
+   "tp_mm": 0.0
+  }
+ ],
+ "thresholds": {
+  "possible": 0.1935,
+  "likely": 0.5834
+ },
+ "threshold_stats": {
+  "possible": {
+   "threshold": 0.194,
+   "CSI": 0.463,
+   "POD": 0.851,
+   "precision": 0.503,
+   "alert_rate": 0.411
+  },
+  "likely": {
+   "threshold": 0.583,
+   "CSI": 0.416,
+   "POD": 0.482,
+   "precision": 0.751,
+   "alert_rate": 0.156
+  }
+ },
+ "base_rate": 0.2289,
+ "test_scores": {
+  "ROC_AUC": 0.8866,
+  "PR_AUC": 0.7217,
+  "PR_AUC_95": "0.686–0.748",
+  "BSS_raw": 0.3432042757499142,
+  "BSS_calibrated": 0.3885694151746599
+ },
+ "model": {
+  "version": "weather_now700-1fc8b7b",
+  "vars": [
+   "z500",
+   "z1000",
+   "t850",
+   "u850",
+   "v850",
+   "u300"
+  ],
+  "uses_mask": true,
+  "test_period": [
+   2018,
+   2023
+  ],
+  "train_years": [
+   2000,
+   2014
+  ],
+  "target": "昭和基地で降雪（現在天気 ww 70–79, 85, 86）が観測される確率。snow_t0 は場の時刻、snow_t6 はその 6 時間後"
+ },
+ "grid": [
+  -69.0,
+  39.5
+ ],
+ "source": "ECMWF IFS open data (0.25°, CC BY 4.0): analysis and forecasts",
+ "history": [
+  {
+   "cycle": "2026-10-01T00:00Z",
+   "p_snow_t0": 0.0802,
+   "p_snow_t6": 0.075,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-01T06:00Z",
+   "p_snow_t0": 0.0678,
+   "p_snow_t6": 0.0655,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-01T12:00Z",
+   "p_snow_t0": 0.0111,
+   "p_snow_t6": 0.0185,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-01T18:00Z",
+   "p_snow_t0": 0.019,
+   "p_snow_t6": 0.0097,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-02T00:00Z",
+   "p_snow_t0": 0.0153,
+   "p_snow_t6": 0.0104,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-02T06:00Z",
+   "p_snow_t0": 0.0074,
+   "p_snow_t6": 0.0047,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-02T12:00Z",
+   "p_snow_t0": 0.0081,
+   "p_snow_t6": 0.0045,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-02T18:00Z",
+   "p_snow_t0": 0.0142,
+   "p_snow_t6": 0.0133,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-03T00:00Z",
+   "p_snow_t0": 0.0206,
+   "p_snow_t6": 0.0143,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-03T06:00Z",
+   "p_snow_t0": 0.0604,
+   "p_snow_t6": 0.1375,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-03T12:00Z",
+   "p_snow_t0": 0.0432,
+   "p_snow_t6": 0.0775,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-03T18:00Z",
+   "p_snow_t0": 0.2352,
+   "p_snow_t6": 0.1997,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-04T00:00Z",
+   "p_snow_t0": 0.2009,
+   "p_snow_t6": 0.1351,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-04T06:00Z",
+   "p_snow_t0": 0.11,
+   "p_snow_t6": 0.166,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-04T12:00Z",
+   "p_snow_t0": 0.1703,
+   "p_snow_t6": 0.287,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-04T18:00Z",
+   "p_snow_t0": 0.174,
+   "p_snow_t6": 0.0805,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-05T00:00Z",
+   "p_snow_t0": 0.109,
+   "p_snow_t6": 0.3688,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-05T06:00Z",
+   "p_snow_t0": 0.4858,
+   "p_snow_t6": 0.916,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-05T12:00Z",
+   "p_snow_t0": 0.8901,
+   "p_snow_t6": 0.841,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-05T18:00Z",
+   "p_snow_t0": 0.8425,
+   "p_snow_t6": 0.7519,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-06T00:00Z",
+   "p_snow_t0": 0.7823,
+   "p_snow_t6": 0.8672,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-06T06:00Z",
+   "p_snow_t0": 0.8568,
+   "p_snow_t6": 0.8374,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-06T12:00Z",
+   "p_snow_t0": 0.7741,
+   "p_snow_t6": 0.7313,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-06T18:00Z",
+   "p_snow_t0": 0.5684,
+   "p_snow_t6": 0.6517,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-07T00:00Z",
+   "p_snow_t0": 0.6223,
+   "p_snow_t6": 0.754,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-07T06:00Z",
+   "p_snow_t0": 0.6329,
+   "p_snow_t6": 0.5468,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-07T12:00Z",
+   "p_snow_t0": 0.5458,
+   "p_snow_t6": 0.2919,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-07T18:00Z",
+   "p_snow_t0": 0.2017,
+   "p_snow_t6": 0.1431,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-08T00:00Z",
+   "p_snow_t0": 0.2078,
+   "p_snow_t6": 0.3982,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-08T06:00Z",
+   "p_snow_t0": 0.3051,
+   "p_snow_t6": 0.5215,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-08T12:00Z",
+   "p_snow_t0": 0.4394,
+   "p_snow_t6": 0.2858,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-08T18:00Z",
+   "p_snow_t0": 0.3985,
+   "p_snow_t6": 0.289,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-09T00:00Z",
+   "p_snow_t0": 0.3146,
+   "p_snow_t6": 0.7206,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-09T06:00Z",
+   "p_snow_t0": 0.9197,
+   "p_snow_t6": 0.8871,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-09T12:00Z",
+   "p_snow_t0": 0.9133,
+   "p_snow_t6": 0.6646,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-09T18:00Z",
+   "p_snow_t0": 0.7988,
+   "p_snow_t6": 0.3962,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-10T00:00Z",
+   "p_snow_t0": 0.1986,
+   "p_snow_t6": 0.2228,
+   "nwp_snow": false
+  },
+  {
+   "cycle": "2026-10-10T06:00Z",
+   "p_snow_t0": 0.2985,
+   "p_snow_t6": 0.5212,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-10T12:00Z",
+   "p_snow_t0": 0.7434,
+   "p_snow_t6": 0.665,
+   "nwp_snow": true
+  },
+  {
+   "cycle": "2026-10-10T18:00Z",
+   "p_snow_t0": 0.676,
+   "p_snow_t6": 0.4789,
+   "nwp_snow": true
+  }
+ ]
+}

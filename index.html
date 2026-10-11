@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SORAYOMI 空読み — 昭和基地 AR 到来予測</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="数値予報（ECMWF IFS / NOAA GFS）と深層学習による、南極昭和基地への大気の川（AR）到来確率と降雪の見通し（研究用の試験運用）">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1b2430; --sub:#5b6675; --line:#e2e6eb;
+  --accent:#2f6fb2; --none:#5b8c5a; --watch:#c98a12; --warn:#c2412d; --grid:#edf0f3; --snow:#7a52b3; --sf:#a9c1dc;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12161c; --card:#1b212a; --ink:#e7ebf0; --sub:#9aa6b4; --line:#2c3440;
+  --accent:#6aa6e6; --none:#7fb77e; --watch:#e0a83a; --warn:#ef6b55; --grid:#232a34; --snow:#b593ea; --sf:#3f5a78; } }
+:root[data-theme="dark"]{
+  --bg:#12161c; --card:#1b212a; --ink:#e7ebf0; --sub:#9aa6b4; --line:#2c3440;
+  --accent:#6aa6e6; --none:#7fb77e; --watch:#e0a83a; --warn:#ef6b55; --grid:#232a34; --snow:#b593ea; --sf:#3f5a78; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:20px 16px 48px}
+header h1{font-size:1.45rem;margin:0 0 2px;letter-spacing:.02em}
+header p{margin:0;color:var(--sub);font-size:.9rem}
+.tag{display:inline-block;font-size:.75rem;border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin-left:6px;color:var(--sub);vertical-align:middle}
+.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-top:16px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h2{font-size:1rem;margin:0 0 10px}
+.big{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.prob{font-size:3.6rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.badge{font-weight:700;border-radius:8px;padding:4px 12px;color:#fff;font-size:.95rem}
+.lv-none{background:var(--none)} .lv-watch{background:var(--watch)} .lv-warning{background:var(--warn)}
+.muted{color:var(--sub);font-size:.88rem}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:12px 0 0}
+dl.kv dt{color:var(--sub)} dl.kv dd{margin:0;font-variant-numeric:tabular-nums}
+.bars div{display:grid;grid-template-columns:70px 1fr 44px;align-items:center;gap:8px;font-size:.85rem;margin:3px 0}
+.bars span.b{height:10px;background:var(--accent);border-radius:5px;display:block}
+.full{margin-top:16px}
+svg text{fill:var(--sub);font-size:11px}
+img.map{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#fff}
+.note{border-left:4px solid var(--warn);padding:10px 14px;background:var(--card);border-radius:8px;margin-top:16px;font-size:.9rem}
+footer{margin-top:24px;color:var(--sub);font-size:.8rem}
+footer a,.card a,header a{color:var(--accent)}
+#err{display:none;color:var(--warn)}
+.lv-likely{background:var(--accent)}
+.wxgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:760px){.wxgrid{grid-template-columns:1fr}}
+.wxcell h3{font-size:.92rem;margin:0 0 6px;color:var(--sub);font-weight:600}
+.prob2{font-size:2.6rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.sw{display:inline-block;width:18px;height:3px;vertical-align:middle;margin:0 5px 0 12px;border-radius:2px}
+#wx,#fc{display:none}
+dl.about{margin:0} dl.about dt{font-weight:600;margin-top:10px} dl.about dt:first-child{margin-top:0} dl.about dd{margin:2px 0 0;font-size:.92rem}
+.tbl{overflow-x:auto;margin-top:12px}
+.tbl table{border-collapse:collapse;width:100%;font-size:.86rem;font-variant-numeric:tabular-nums}
+.tbl th,.tbl td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.tbl th{color:var(--sub);font-weight:600}
+.lvt{font-size:.78rem;font-weight:700}
+.lvt.watch,.lvt.possible{color:var(--watch)} .lvt.warning{color:var(--warn)} .lvt.likely{color:var(--accent)}
+.brand{display:flex;align-items:center;gap:14px}
+.brand img{width:52px;height:52px;flex:none}
+.bn{font-weight:800;letter-spacing:.07em;font-size:1.05rem;line-height:1.2}
+.bn span{font-weight:600;letter-spacing:.03em;font-size:.85rem;color:var(--sub);margin-left:6px}
+.tag2{display:inline-block;font-size:.72rem;font-weight:700;border-radius:6px;padding:0 7px;color:#fff;white-space:nowrap;vertical-align:2px;margin-left:6px}
+.k-dl{background:var(--accent)} .k-hy{background:var(--watch)}
+.dl1{margin-top:12px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.dl1 .p{font-size:1.9rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.dl1 .badge{font-size:.82rem;padding:2px 9px}
+#wxdl{display:none;margin:0 0 12px}
+</style>
+</head>
+<body>
+<main>
+<header>
+ <div class="brand"><img src="logo.svg" alt="SORAYOMI のロゴ"><div>
+  <div class="bn">SORAYOMI<span>空読み</span></div>
+  <h1>昭和基地 大気の川（AR）到来予測 <span class="tag">研究用・試験運用</span></h1>
+ </div></div>
+  <p id="subtitle">Syowa Station Atmospheric River Outlook — CNN trained on ERA5 (experimental)</p>
+  <p style="margin-top:4px"><a href="about.html">モデルの説明 →</a></p>
+</header>
+
+<p id="err">データを読み込めませんでした。しばらくしてから再読み込みしてください。</p>
+
+<div class="grid">
+  <section class="card">
+    <h2>次の 24 時間に AR が来る確率<span class="tag2" id="hkind"></span></h2>
+    <div class="big"><span class="prob" id="prob">–</span><span class="badge" id="badge">–</span></div>
+    <p class="muted" id="period">–</p>
+    <div class="dl1" id="dlonly" style="display:none">
+      <span class="tag2 k-dl" style="margin-left:0">深層学習のみ</span>
+      <span class="p" id="dlprob">–</span><span class="badge" id="dlbadge">–</span>
+      <span class="muted" id="dlperiod">–</span>
+    </div>
+    <p class="muted" id="base">–</p>
+    <dl class="kv">
+      <dt>解析時刻</dt><dd id="cycle">–</dd>
+      <dt>計算時刻</dt><dd id="issued">–</dd>
+      <dt id="ivt_dt">昭和の IVT</dt><dd id="ivt">–</dd>
+      <dt>昭和の可降水量</dt><dd id="iwv">–</dd>
+      <dt>昭和の南北風 850 hPa</dt><dd id="v850">–</dd>
+      <dt id="arnow_dt">いま AR か</dt><dd id="arnow">–</dd>
+    </dl>
+  </section>
+  <section class="card">
+    <h2>モデルが重視した要素（今回の予測）</h2>
+    <div class="bars" id="bars"></div>
+    <p class="muted">入力勾配×入力の大きさを要素ごとに合計した割合。v850：南北風、u300：上層ジェット、z500 / z1000：高度場、w700：鉛直流、t850：気温、mask：AR マスク。</p>
+  </section>
+</div>
+
+<section class="card full" id="fc">
+  <h2>今後 48 時間の見通し <span class="tag">IFS 予報</span></h2>
+  <svg id="fcchart" viewBox="0 0 1000 250" width="100%" role="img" aria-label="今後48時間のARと降雪の見通し"></svg>
+  <p class="muted"><span class="sw" style="background:var(--accent);margin-left:0"></span>AR が 24 時間以内に来る確率（その時刻から）<span class="sw" style="background:var(--snow)"></span>その時刻に雪が降っている確率<span class="sw" style="background:var(--sf);height:9px;width:12px"></span>IFS の 6 時間降雪量（水換算, 右軸）<span class="sw" style="background:var(--warn);height:6px;width:6px"></span>IFS の予報で AR が昭和にかかる（薄い色は 3×3 格子のどこか）。灰色の部分は公開時点で過ぎた時刻。</p>
+  <div class="tbl" id="fctable"></div>
+</section>
+
+<section class="card full" id="wx">
+  <h2>昭和基地の降雪 <span class="tag">試験</span></h2>
+  <div class="dl1" id="wxdl"></div>
+  <div class="wxgrid" id="wxcells"></div>
+  <svg id="wxchart" viewBox="0 0 1000 220" width="100%" role="img" aria-label="過去30日の降雪の確率の推移" style="margin-top:14px"></svg>
+  <p class="muted"><span class="sw" style="background:var(--accent);margin-left:0"></span><span id="wxl0">解析時刻の確率</span><span class="sw" style="background:var(--sub)"></span><span id="wxl6">6 時間後の確率</span><span class="sw" style="background:var(--ink);height:6px;width:4px"></span><span id="wxmark">数値予報が雪を出した回</span>。破線：「可能性あり」「可能性が高い」の目安。</p>
+  <p class="muted" id="wxabout"></p>
+</section>
+
+<section class="card full">
+  <h2>過去 30 日の予測確率</h2>
+  <svg id="chart" viewBox="0 0 1000 260" width="100%" role="img" aria-label="過去30日の予測確率の推移"></svg>
+  <p class="muted" id="histcap">破線：注意・警戒の目安。灰色の帯：昭和基地の IVT（右軸）。</p>
+</section>
+
+<section class="card full">
+  <h2 id="maph">解析場と注目箇所</h2>
+  <a id="maplink" target="_blank" rel="noopener"><img class="map" id="map" alt="IVT、500 hPa 高度、850 hPa 南北風と、モデルが注目した場所の地図"></a>
+  <p class="muted">画像を押すと拡大します。左上：水蒸気輸送量（IVT）。右上：500 hPa 高度と平年差。左下：850 hPa 南北風（負が極向き）と 1000 hPa 高度。右下：モデルが注目した場所。★：昭和基地。</p>
+</section>
+
+<section class="card full">
+  <h2>このページについて</h2>
+  <dl class="kv">
+    <dt>学習</dt><dd>ERA5 再解析（2000–2014 年）で学習した CNN</dd>
+    <dt>運用</dt><dd id="opshort">–</dd>
+    <dt>AR の目安</dt><dd id="thshort">–</dd>
+  </dl>
+  <p style="margin:12px 0 0"><a href="about.html"><b>モデルの説明（しくみ・目安・成績, 図つき）→</b></a></p>
+</section>
+
+<div class="note"><b>ご注意</b>：これは研究目的の試験的な情報で、公式の気象予報・警報ではありません。観測や野外行動の判断には、気象庁および観測隊気象担当の公式な情報を使ってください。This is an experimental research product, not an official forecast.</div>
+
+<footer>
+  <p><span id="credit"></span>学習データ：ERA5（Hersbach et al., 2020）— Contains modified Copernicus Climate Change Service information. AR マスク：Takahashi et al.（2026）。運用時の AR 検出：Takahashi and Sakazaki（2025, JMSJ）の手法を論文の記述に基づいて実装。</p>
+  <p id="ver"></p>
+</footer>
+</main>
+
+<script>
+const LV = {none:["平常","lv-none"], watch:["注意","lv-watch"], warning:["警戒","lv-warning"]};
+const WLV = {none:["低い","lv-none"], possible:["可能性あり","lv-watch"], likely:["可能性が高い","lv-likely"]};
+const pct = p => p === null || p === undefined ? "–" : p < 0.01 ? "1% 未満" : (p*100).toFixed(p < 0.1 ? 1 : 0) + "%";
+const tms = s => new Date(s.replace("Z",":00Z")).getTime();
+const lst = s => new Date(tms(s) + 3*3600e3);
+const fmt = s => { const f = x => x.toISOString().slice(0,16).replace("T"," ");
+  return `${f(new Date(tms(s)))} UTC（昭和 ${f(lst(s)).slice(5)} LST）`; };
+const fmtL = s => { const d = lst(s); return `${d.getUTCMonth()+1}/${d.getUTCDate()} ${String(d.getUTCHours()).padStart(2,"0")}時`; };
+const mm = (v,u) => v === null || v === undefined ? "–" : (v < 0.005 ? "0" : v.toFixed(v < 1 ? 2 : 1)) + " " + u;
+const $ = id => document.getElementById(id);
+let LATEST = null, WX = null;
+
+async function load(){
+  const bust = "?t=" + Date.now();
+  const [L, H] = await Promise.all([fetch("data/latest.json"+bust).then(r=>r.json()), fetch("data/history.json"+bust).then(r=>r.json())]);
+  LATEST = L;
+  const ifs = L.provider === "ifs", src = ifs ? "ECMWF IFS" : "NOAA GFS";
+  $("subtitle").textContent = `Syowa Station Atmospheric River Outlook — ${ifs ? "ECMWF IFS analysis and forecasts" : "NOAA GFS analysis"} + CNN trained on ERA5 (experimental)`;
+  $("prob").textContent = pct(L.prob);
+  const b = $("badge"); b.textContent = LV[L.level][0]; b.className = "badge " + LV[L.level][1];
+  $("period").textContent = `対象期間：${fmt(L.valid_from)} 〜 ${fmt(L.valid_to)}` + (ifs ? `（IFS の解析の ${L.lead_h} 時間後から 24 時間）` : "");
+  const hk = $("hkind"); hk.textContent = ifs ? "数値予報＋深層学習" : "深層学習のみ"; hk.className = "tag2 " + (ifs ? "k-hy" : "k-dl");
+  const f0 = ifs && L.forecast ? L.forecast.find(f => f.step === 0) : null;
+  if (f0 && f0.ar_prob !== null) {
+    $("dlprob").textContent = pct(f0.ar_prob);
+    const db = $("dlbadge"); db.textContent = LV[f0.ar_level][0]; db.className = "badge " + LV[f0.ar_level][1];
+    $("dlperiod").textContent = `IFS の解析（いまの大気の状態）だけから：${fmt(L.cycle)} から 24 時間。数値予報の予報は使っていません`;
+    $("dlonly").style.display = "flex";
+  }
+  $("base").textContent = `平常時の平均的な確率は約 ${pct(L.base_rate)}（テスト期間）。シードごと：${L.prob_seeds.map(pct).join(" / ")}`;
+  $("cycle").textContent = fmt(L.cycle);
+  $("issued").textContent = fmt(L.issued);
+  $("ivt_dt").textContent = ifs ? "昭和の IVT（対象期間の始め）" : "昭和の IVT";
+  $("ivt").textContent = `${L.syowa.ivt} kg m⁻¹ s⁻¹`;
+  $("iwv").textContent = `${L.syowa.iwv} kg m⁻²`;
+  $("v850").textContent = `${L.syowa.v850} m/s（負：極向き）`;
+  if (L.syowa.ar_now === null){ $("arnow_dt").style.display="none"; $("arnow").style.display="none"; }
+  else if (ifs){ $("arnow_dt").textContent = "対象期間の始めに AR か"; $("arnow").textContent = L.syowa.ar_now ? "AR がかかる予報（確率は AR でないときを前提）" : "AR はかからない予報"; }
+  else $("arnow").textContent = L.syowa.ar_now ? "AR 中（確率は AR でないときを前提）" : "AR ではない";
+  const bars = $("bars"); const mx = Math.max(...Object.values(L.attention_by_var));
+  bars.innerHTML = Object.entries(L.attention_by_var).map(([k,v]) =>
+    `<div><span>${k}</span><span class="b" style="width:${(v/mx*100).toFixed(0)}%"></span><span>${(v*100).toFixed(0)}%</span></div>`).join("");
+  $("map").src = "data/" + L.map + bust; $("maplink").href = "data/" + L.map;
+  $("maph").textContent = ifs ? `IFS の予報場（解析の ${L.lead_h} 時間後）と注目箇所` : "解析場と注目箇所";
+  $("opshort").textContent = ifs ? `ECMWF IFS の解析と予報（見出しと地図は解析の ${L.lead_h} 時間後から）。止まったときは NOAA GFS` : "NOAA GFS の解析（ECMWF IFS が止まっているため）";
+  $("credit").textContent = ifs
+    ? "データ：ECMWF IFS Open Data（解析値・予報値, CC BY 4.0）— Source: ECMWF. "
+    : "データ：NOAA/NCEP Global Forecast System（GFS）解析値。";
+  $("histcap").textContent = ifs
+    ? "各回の IFS の解析から出した「その時刻から 24 時間以内」の確率（見出しの確率は解析の 12 時間後から）。破線：注意・警戒の目安。灰色の帯：昭和基地の IVT（解析, 右軸）。赤い印：解析で AR が昭和にかかっていた時刻。"
+    : "各回の GFS の解析から出した確率。破線：注意・警戒の目安。灰色の帯：昭和基地の IVT（右軸）。赤い印：解析で AR が昭和にかかっていた時刻。";
+  $("thshort").textContent = `注意 ${pct(L.thresholds.watch)} 以上、警戒 ${pct(L.thresholds.warning)} 以上（平常時の平均は約 ${pct(L.base_rate)}）`;
+  $("ver").textContent = `モデル ${L.model.version} ／ ${L.source}`;
+  chart(H, L.thresholds);
+  forecast();
+}
+
+function chart(H, th){
+  const svg = $("chart"), W=1000, Hh=260, m={l:44,r:48,t:10,b:26};
+  if (!H.length) return;
+  const t = H.map(h => tms(h.cycle));
+  const t0 = Math.min(...t), t1 = Math.max(...t, t0+864e5);
+  const ymax = Math.max(0.5, ...H.map(h=>h.prob))*1.05, ivmax = Math.max(200, ...H.map(h=>h.ivt));
+  const X = v => m.l + (v-t0)/(t1-t0)*(W-m.l-m.r), Y = v => Hh-m.b - v/ymax*(Hh-m.t-m.b), Yi = v => Hh-m.b - v/ivmax*(Hh-m.t-m.b);
+  let s = "";
+  for (let k=0;k<=5;k++){ const v=ymax*k/5; s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${m.l-6}" y="${Y(v)+4}" text-anchor="end">${(v*100).toFixed(0)}%</text>`; }
+  for (let d=Math.ceil(t0/864e5)*864e5; d<=t1; d+=864e5*5){ s+=`<text x="${X(d)}" y="${Hh-6}" text-anchor="middle">${new Date(d).toISOString().slice(5,10)}</text>`; }
+  s += `<polyline fill="none" stroke="var(--line)" stroke-width="6" stroke-linejoin="round" opacity=".9" points="${H.map((h,i)=>`${X(t[i])},${Yi(h.ivt)}`).join(" ")}"/>`;
+  s += `<text x="${W-m.r+6}" y="${m.t+10}">IVT ${ivmax.toFixed(0)}</text>`;
+  [["watch","var(--watch)"],["warning","var(--warn)"]].forEach(([k,c]) => { if (th[k] < ymax) s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(th[k])}" y2="${Y(th[k])}" stroke="${c}" stroke-dasharray="6 5"/>`; });
+  s += `<polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${H.map((h,i)=>`${X(t[i])},${Y(h.prob)}`).join(" ")}"/>`;
+  H.forEach((h,i) => { const c = h.level==="warning"?"var(--warn)":h.level==="watch"?"var(--watch)":"var(--accent)";
+    s += `<circle cx="${X(t[i])}" cy="${Y(h.prob)}" r="${h.level==="none"?2.2:3.6}" fill="${c}"><title>${h.cycle} ${(h.prob*100).toFixed(1)}%</title></circle>`;
+    if (h.ar_now) s += `<rect x="${X(t[i])-2}" y="${Hh-m.b-6}" width="4" height="6" fill="var(--warn)"/>`; });
+  svg.innerHTML = s;
+}
+
+// ---- 今後 48 時間（IFS 版のときだけ）
+function forecast(){
+  const L = LATEST; if (!L || !L.forecast) { $("fc").style.display = "none"; return; }
+  const F = L.forecast, S = (WX && WX.series) ? WX.series : [];
+  const sv = Object.fromEntries(S.map(x => [x.valid, x]));
+  const svg = $("fcchart"), W=1000, Hh=250, m={l:44,r:56,t:14,b:34};
+  const t0 = tms(F[0].valid), t1 = tms(F[F.length-1].valid), now = Date.now();
+  const X = v => m.l + (v-t0)/(t1-t0)*(W-m.l-m.r), Y = v => Hh-m.b - v*(Hh-m.t-m.b);
+  const sfmax = Math.max(1, ...S.map(x => x.sf_mm || 0)), Ys = v => Hh-m.b - v/sfmax*(Hh-m.t-m.b);
+  let s = "";
+  if (now > t0) s += `<rect x="${m.l}" y="${m.t}" width="${Math.min(X(now), W-m.r)-m.l}" height="${Hh-m.t-m.b}" fill="var(--grid)"/>`;
+  for (let k=0;k<=4;k++){ const v=k/4; s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${m.l-6}" y="${Y(v)+4}" text-anchor="end">${(v*100).toFixed(0)}%</text>`; }
+  F.forEach((f,i) => { if (i % 2 === 0) s += `<text x="${X(tms(f.valid))}" y="${Hh-14}" text-anchor="middle">${fmtL(f.valid)}</text>`; });
+  s += `<text x="${m.l}" y="${Hh-1}" style="font-size:10px">昭和の地方時（LST）</text>`;
+  S.forEach(x => { if (x.sf_mm > 0) { const a = X(tms(x.valid)-6*3600e3), b2 = X(tms(x.valid));
+    s += `<rect x="${a+1}" y="${Ys(x.sf_mm)}" width="${Math.max(b2-a-2,1)}" height="${Hh-m.b-Ys(x.sf_mm)}" fill="var(--sf)"><title>${fmtL(x.valid)} までの 6 時間 ${x.sf_mm} mm</title></rect>`; } });
+  s += `<text x="${W-m.r+6}" y="${m.t+10}">${sfmax.toFixed(1)} mm</text><text x="${W-m.r+6}" y="${Hh-m.b}">0</text>`;
+  if (WX && WX.thresholds) s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Y(WX.thresholds.possible)}" y2="${Y(WX.thresholds.possible)}" stroke="var(--snow)" stroke-dasharray="5 5" opacity=".5"/>`;
+  const line = (pts, c, w) => `<polyline fill="none" stroke="${c}" stroke-width="${w}" stroke-linejoin="round" points="${pts.map(p=>`${X(p[0])},${Y(p[1])}`).join(" ")}"/>`;
+  const ap = F.filter(f => f.ar_prob !== null).map(f => [tms(f.valid), f.ar_prob]);
+  const sp = S.filter(x => x.prob !== null).map(x => [tms(x.valid), x.prob]);
+  s += line(ap, "var(--accent)", 2.2); if (sp.length) s += line(sp, "var(--snow)", 2.2);
+  ap.forEach(p => s += `<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="2.6" fill="var(--accent)"/>`);
+  sp.forEach(p => s += `<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="2.6" fill="var(--snow)"/>`);
+  F.forEach(f => { if (f.ar_syowa || f.ar_3x3) s += `<rect x="${X(tms(f.valid))-5}" y="${Hh-m.b-8}" width="10" height="8" fill="var(--warn)" opacity="${f.ar_syowa ? 1 : .4}"/>`; });
+  if (now > t0 && now < t1) s += `<line x1="${X(now)}" x2="${X(now)}" y1="${m.t}" y2="${Hh-m.b}" stroke="var(--ink)" stroke-dasharray="3 3"/><text x="${X(now)+4}" y="${m.t+10}" style="fill:var(--ink)">いま</text>`;
+  svg.innerHTML = s;
+  const rows = F.filter(f => tms(f.valid) >= now - 3*3600e3).map(f => { const x = sv[f.valid] || {};
+    const arl = f.ar_level && f.ar_level !== "none" ? ` <span class="lvt ${f.ar_level}">${LV[f.ar_level][0]}</span>` : "";
+    const snl = x.level && x.level !== "none" ? ` <span class="lvt ${x.level}">${WLV[x.level][0]}</span>` : "";
+    return `<tr><td>${fmtL(f.valid)}</td><td>${pct(f.ar_prob)}${arl}</td><td>${pct(x.prob)}${snl}</td><td>${mm(x.sf_mm, "mm")}</td><td>${f.ar_syowa ? "かかる" : f.ar_3x3 ? "近く" : "–"}</td></tr>`; }).join("");
+  $("fctable").innerHTML = `<table><thead><tr><th>昭和 LST</th><th>AR 24h 以内</th><th>降雪</th><th>6h 降雪量</th><th>IFS の AR</th></tr></thead><tbody>${rows}</tbody></table>`;
+  $("fc").style.display = "block";
+}
+
+// ---- 降雪（試験）：data/weather.json があるときだけ表示する
+function gfsType(g){
+  if (g.prate === null || g.prate === undefined) return "–";
+  if (g.prate < 0.01) return "降水なし";
+  return (g.csnow !== null && g.csnow >= 0.5) ? "雪" : "雪以外の降水";
+}
+async function loadWx(){
+  const r = await fetch("data/weather.json?t=" + Date.now()); if (!r.ok) return;
+  const Wx = WX = await r.json();
+  if (Wx.provider === "ifs"){
+    const pick = Wx.series.filter(x => x.step === 12 || x.step === 24);
+    const s0 = Wx.series.find(x => x.step === 0), h0 = (Wx.history || []).find(h => h.cycle === Wx.cycle);
+    if (s0 && s0.prob !== null) {
+      const t6 = h0 && h0.p_snow_t6 !== null && h0.p_snow_t6 !== undefined ? h0.p_snow_t6 : null;
+      $("wxdl").innerHTML = `<span class="tag2 k-dl" style="margin-left:0">深層学習のみ</span>`
+        + `<span class="muted">IFS の解析だけから：</span><span>解析時刻（${fmt(Wx.cycle)}）<b>${pct(s0.prob)}</b></span>`
+        + (t6 !== null ? `<span>6 時間後 <b>${pct(t6)}</b></span>` : "")
+        + `<span class="muted">下の 2 つは <span class="tag2 k-hy" style="margin-left:0">数値予報＋深層学習</span></span>`;
+      $("wxdl").style.display = "flex";
+    }
+    $("wxcells").innerHTML = pick.map(x => `<div class="wxcell"><h3>解析の ${x.step} 時間後：${fmt(x.valid)}</h3>
+      <div class="big"><span class="prob2">${pct(x.prob)}</span><span class="badge ${WLV[x.level][1]}">${WLV[x.level][0]}</span></div>
+      <p class="muted">CNN による降雪の確率（IFS の予報の場から）。ふだんの頻度は約 ${pct(Wx.base_rate)}。</p>
+      <dl class="kv"><dt>IFS の 6 時間降雪量</dt><dd>${mm(x.sf_mm, "mm（水換算）")}</dd><dt>IFS の 6 時間降水量</dt><dd>${mm(x.tp_mm, "mm")}</dd></dl></div>`).join("");
+    $("wxabout").innerHTML = `確率：CNN による「その時刻に雪が降っている確率」（IFS の予報の場から）。降雪量：IFS の昭和基地に最も近い格子点の 6 時間の量（水換算）。`+
+      `目安：可能性あり ${pct(Wx.thresholds.possible)} 以上、可能性が高い ${pct(Wx.thresholds.likely)} 以上。<a href="about.html">くわしくはモデルの説明 →</a>`;
+    $("wxmark").textContent = "IFS が解析から 6 時間で 0.1 mm 以上の降雪を出した回";
+    $("wxl0").textContent = "IFS の解析からの確率（その時刻）"; $("wxl6").textContent = "同じく 6 時間後";
+    $("wx").style.display = "block";
+    wxChart(Wx.history, Wx.thresholds, ["p_snow_t0", "p_snow_t6"]);
+    forecast();
+    return;
+  }
+  $("wxcells").innerHTML = Wx.targets.map(t => {
+    const g = t.gfs, now = t.lead_h === 0;
+    return `<div class="wxcell"><h3>${now ? "解析時刻" : `解析時刻の ${t.lead_h} 時間後`}：${fmt(t.valid)}</h3>
+      <div class="big"><span class="prob2">${pct(t.prob)}</span><span class="badge ${WLV[t.level][1]}">${WLV[t.level][0]}</span></div>
+      <p class="muted">CNN による降雪の確率。ふだんの頻度は約 ${pct(t.base_rate)}。</p>
+      <dl class="kv"><dt>GFS の${now ? "解析値" : "予報（その時刻）"}</dt><dd>${gfsType(g)}</dd>
+      <dt>GFS の降水強度</dt><dd>${mm(g.prate, "mm/h")}</dd>
+      ${now ? "" : `<dt>GFS の 6 時間降水量</dt><dd>${mm(g.apcp, "mm")}</dd>`}</dl></div>`; }).join("");
+  const t0 = Wx.targets[0];
+  $("wxabout").innerHTML = `確率：CNN による「その時刻に雪が降っている確率」（GFS の解析から）。GFS の値は昭和基地に最も近い格子点の降水強度と降水の型。解析値の公開は約 4 時間後なので「解析時刻」は数時間前の時刻。`+
+    `目安：可能性あり ${pct(t0.thresholds.possible)} 以上、可能性が高い ${pct(t0.thresholds.likely)} 以上。<a href="about.html">くわしくはモデルの説明 →</a>`;
+  $("wxmark").textContent = "GFS が解析時刻に雪を出した回";
+  $("wx").style.display = "block";
+  wxChart(Wx.history, t0.thresholds, Wx.targets.map(t => "p_" + t.key));
+}
+function wxChart(H, th, keys){
+  const svg = $("wxchart"), W=1000, Hh=220, m={l:44,r:48,t:10,b:26};
+  if (!H.length) return;
+  const t = H.map(h => tms(h.cycle));
+  const t0 = Math.min(...t), t1 = Math.max(...t, t0+864e5);
+  const X = v => m.l + (v-t0)/(t1-t0)*(W-m.l-m.r), Y = v => Hh-m.b - v*(Hh-m.t-m.b);
+  let s = "";
+  for (let k=0;k<=4;k++){ const v=k/4; s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${m.l-6}" y="${Y(v)+4}" text-anchor="end">${(v*100).toFixed(0)}%</text>`; }
+  for (let d=Math.ceil(t0/864e5)*864e5; d<=t1; d+=864e5*5){ s+=`<text x="${X(d)}" y="${Hh-6}" text-anchor="middle">${new Date(d).toISOString().slice(5,10)}</text>`; }
+  ["possible","likely"].forEach(k => { s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(th[k])}" y2="${Y(th[k])}" stroke="var(--sub)" stroke-dasharray="6 5" opacity=".6"/>`; });
+  const line = (k,c,w) => { const pts = H.map((h,i)=>[t[i],h[k]]).filter(p=>p[1]!==null && p[1]!==undefined);
+    return `<polyline fill="none" stroke="${c}" stroke-width="${w}" stroke-linejoin="round" points="${pts.map(p=>`${X(p[0])},${Y(p[1])}`).join(" ")}"/>`; };
+  if (keys[1]) s += line(keys[1], "var(--sub)", 1.3);
+  s += line(keys[0], "var(--accent)", 2);
+  H.forEach((h,i) => { const v = h[keys[0]];
+    if (v !== null && v !== undefined) s += `<circle cx="${X(t[i])}" cy="${Y(v)}" r="2.2" fill="var(--accent)"><title>${h.cycle} ${(v*100).toFixed(0)}%</title></circle>`;
+    if (h.nwp_snow === true || (h.gfs_snow_now >= 0.5 && h.gfs_prate_now >= 0.01)) s += `<rect x="${X(t[i])-2}" y="${Hh-m.b-6}" width="4" height="6" fill="var(--ink)"/>`; });
+  svg.innerHTML = s;
+}
+load().catch(e => { console.error(e); $("err").style.display = "block"; });
+loadWx().catch(e => console.error(e));
+</script>
+</body>
+</html>
