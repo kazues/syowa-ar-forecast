@@ -1,0 +1,180 @@
+{
+ "cycle": "2026-11-28T06:00Z",
+ "provider": "ifs",
+ "lead_h": 12,
+ "valid_from": "2026-11-28T18:00Z",
+ "valid_to": "2026-11-29T18:00Z",
+ "issued": "2026-11-28T12:51Z",
+ "prob": 0.0055,
+ "prob_seeds": [
+  0.0059,
+  0.0105,
+  0.0
+ ],
+ "level": "none",
+ "thresholds": {
+  "watch": 0.0402,
+  "warning": 0.4098
+ },
+ "threshold_stats": {
+  "watch": {
+   "threshold": 0.04,
+   "CSI": 0.302,
+   "POD": 0.858,
+   "precision": 0.318,
+   "alert_rate": 0.123
+  },
+  "warning": {
+   "threshold": 0.41,
+   "CSI": 0.384,
+   "POD": 0.437,
+   "precision": 0.761,
+   "alert_rate": 0.026
+  }
+ },
+ "base_rate": 0.0426,
+ "syowa": {
+  "ivt": 11.2,
+  "iwv": 2.78,
+  "v850": 0.9,
+  "ar_now": false
+ },
+ "attention_by_var": {
+  "z500": 0.17,
+  "t850": 0.133,
+  "u300": 0.131,
+  "v850": 0.119,
+  "w700": 0.118,
+  "z1000": 0.114,
+  "mask": 0.112,
+  "u850": 0.102
+ },
+ "map": "maps/2026112806_ifs.png",
+ "model": {
+  "version": "y24-31903e4",
+  "uses_mask": true,
+  "test_scores": {
+   "ROC_AUC": 0.9569,
+   "PR_AUC": 0.5902,
+   "BSS": 0.3827,
+   "PR_AUC_95": "0.523–0.648",
+   "BSS_95": "0.323–0.436"
+  },
+  "test_period": [
+   2018,
+   2023
+  ],
+  "train_years": [
+   2000,
+   2014
+  ],
+  "target": "昭和基地の格子（69°S, 39.6°E 付近）が今 AR でないとき、次の 24 時間以内に AR が来る確率",
+  "mask_method": {
+   "ivt": "correct",
+   "mode": "anomaly",
+   "lat_range": [
+    0,
+    -90
+   ],
+   "weight": "simple",
+   "frac": 0.3,
+   "min_length": 2000.0,
+   "min_aspect": 2.0,
+   "min_mean_ivt": 100.0,
+   "validated": "ERA5 2019-01 (1 か月): CNN 領域の CSI 0.983 / GFS 2021-06〜2023-12 の 27 時刻: 20–90S の CSI 0.801, CNN 領域の CSI 0.823"
+  }
+ },
+ "source": "ECMWF IFS open data (0.25°, CC BY 4.0): analysis and forecasts",
+ "forecast": [
+  {
+   "step": 0,
+   "valid": "2026-11-28T06:00Z",
+   "ar_prob": 0.0153,
+   "ar_level": "none",
+   "ar_syowa": 0,
+   "ar_3x3": 0,
+   "ar_r300": 0,
+   "ivt": 2.5
+  },
+  {
+   "step": 6,
+   "valid": "2026-11-28T12:00Z",
+   "ar_prob": 0.0034,
+   "ar_level": "none",
+   "ar_syowa": 0,
+   "ar_3x3": 0,
+   "ar_r300": 0,
+   "ivt": 7.9
+  },
+  {
+   "step": 12,
+   "valid": "2026-11-28T18:00Z",
+   "ar_prob": 0.0055,
+   "ar_level": "none",
+   "ar_syowa": 0,
+   "ar_3x3": 0,
+   "ar_r300": 0,
+   "ivt": 11.2
+  },
+  {
+   "step": 18,
+   "valid": "2026-11-29T00:00Z",
+   "ar_prob": 0.0019,
+   "ar_level": "none",
+   "ar_syowa": 0,
+   "ar_3x3": 0,
+   "ar_r300": 0,
+   "ivt": 10.2
+  },
+  {
+   "step": 24,
+   "valid": "2026-11-29T06:00Z",
+   "ar_prob": 0.0032,
+   "ar_level": "none",
+   "ar_syowa": 0,
+   "ar_3x3": 0,
+   "ar_r300": 0,
+   "ivt": 5.9
+  },
+  {
+   "step": 30,
+   "valid": "2026-11-29T12:00Z",
+   "ar_prob": 0.0197,
+   "ar_level": "none",
+   "ar_syowa": 0,
+   "ar_3x3": 0,
+   "ar_r300": 0,
+   "ivt": 4.1
+  },
+  {
+   "step": 36,
+   "valid": "2026-11-29T18:00Z",
+   "ar_prob": 0.0143,
+   "ar_level": "none",
+   "ar_syowa": 0,
+   "ar_3x3": 0,
+   "ar_r300": 0,
+   "ivt": 8.8
+  },
+  {
+   "step": 42,
+   "valid": "2026-11-30T00:00Z",
+   "ar_prob": 0.0069,
+   "ar_level": "none",
+   "ar_syowa": 0,
+   "ar_3x3": 0,
+   "ar_r300": 0,
+   "ivt": 14.2
+  },
+  {
+   "step": 48,
+   "valid": "2026-11-30T06:00Z",
+   "ar_prob": 0.0019,
+   "ar_level": "none",
+   "ar_syowa": 0,
+   "ar_3x3": 0,
+   "ar_r300": 0,
+   "ivt": 20.6
+  }
+ ]
+}

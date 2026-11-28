@@ -1,0 +1,849 @@
+[
+{
+"cycle": "2026-10-29T06:00Z",
+"prob": 0.0186,
+"level": "none",
+"ivt": 26.5,
+"ar_now": false
+},
+{
+"cycle": "2026-10-29T12:00Z",
+"prob": 0.0227,
+"level": "none",
+"ivt": 16.3,
+"ar_now": false
+},
+{
+"cycle": "2026-10-29T18:00Z",
+"prob": 0.0163,
+"level": "none",
+"ivt": 12.7,
+"ar_now": false
+},
+{
+"cycle": "2026-10-30T00:00Z",
+"prob": 0.0008,
+"level": "none",
+"ivt": 8.6,
+"ar_now": false
+},
+{
+"cycle": "2026-10-30T06:00Z",
+"prob": 0.0017,
+"level": "none",
+"ivt": 10.8,
+"ar_now": false
+},
+{
+"cycle": "2026-10-30T12:00Z",
+"prob": 0.0017,
+"level": "none",
+"ivt": 11.5,
+"ar_now": false
+},
+{
+"cycle": "2026-10-30T18:00Z",
+"prob": 0.0002,
+"level": "none",
+"ivt": 9.2,
+"ar_now": false
+},
+{
+"cycle": "2026-10-31T00:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 4.2,
+"ar_now": false
+},
+{
+"cycle": "2026-10-31T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 7.7,
+"ar_now": false
+},
+{
+"cycle": "2026-10-31T12:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 9.0,
+"ar_now": false
+},
+{
+"cycle": "2026-10-31T18:00Z",
+"prob": 0.0003,
+"level": "none",
+"ivt": 12.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-01T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 15.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-01T06:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 22.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-01T12:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 23.5,
+"ar_now": false
+},
+{
+"cycle": "2026-11-01T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 16.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-02T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 13.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-02T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 11.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-02T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 10.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-02T18:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 10.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-03T00:00Z",
+"prob": 0.0002,
+"level": "none",
+"ivt": 17.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-03T06:00Z",
+"prob": 0.0004,
+"level": "none",
+"ivt": 31.3,
+"ar_now": false
+},
+{
+"cycle": "2026-11-03T12:00Z",
+"prob": 0.0004,
+"level": "none",
+"ivt": 35.3,
+"ar_now": false
+},
+{
+"cycle": "2026-11-03T18:00Z",
+"prob": 0.0004,
+"level": "none",
+"ivt": 37.7,
+"ar_now": false
+},
+{
+"cycle": "2026-11-04T00:00Z",
+"prob": 0.0005,
+"level": "none",
+"ivt": 43.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-04T06:00Z",
+"prob": 0.0002,
+"level": "none",
+"ivt": 40.5,
+"ar_now": false
+},
+{
+"cycle": "2026-11-04T12:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 44.7,
+"ar_now": false
+},
+{
+"cycle": "2026-11-04T18:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 51.7,
+"ar_now": false
+},
+{
+"cycle": "2026-11-05T00:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 42.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-05T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 32.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-05T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 22.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-05T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 17.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-06T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 16.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-06T06:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 18.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-06T12:00Z",
+"prob": 0.0005,
+"level": "none",
+"ivt": 17.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-06T18:00Z",
+"prob": 0.0004,
+"level": "none",
+"ivt": 14.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-07T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 10.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-07T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 9.7,
+"ar_now": false
+},
+{
+"cycle": "2026-11-07T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 6.3,
+"ar_now": false
+},
+{
+"cycle": "2026-11-07T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 6.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-08T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 6.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-08T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 5.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-08T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 10.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-08T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 10.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-09T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 10.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-09T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 10.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-09T12:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 13.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-09T18:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 13.5,
+"ar_now": false
+},
+{
+"cycle": "2026-11-10T00:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 12.3,
+"ar_now": false
+},
+{
+"cycle": "2026-11-10T06:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 11.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-10T12:00Z",
+"prob": 0.0002,
+"level": "none",
+"ivt": 12.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-10T18:00Z",
+"prob": 0.0002,
+"level": "none",
+"ivt": 13.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-11T00:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 13.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-11T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 12.5,
+"ar_now": false
+},
+{
+"cycle": "2026-11-11T12:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 9.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-11T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 6.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-12T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 7.3,
+"ar_now": false
+},
+{
+"cycle": "2026-11-12T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 15.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-12T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 18.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-12T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 12.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-13T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 8.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-13T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 8.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-13T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 8.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-13T18:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 8.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-14T00:00Z",
+"prob": 0.0002,
+"level": "none",
+"ivt": 8.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-14T06:00Z",
+"prob": 0.0011,
+"level": "none",
+"ivt": 6.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-14T12:00Z",
+"prob": 0.0061,
+"level": "none",
+"ivt": 7.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-14T18:00Z",
+"prob": 0.009,
+"level": "none",
+"ivt": 5.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-15T00:00Z",
+"prob": 0.0023,
+"level": "none",
+"ivt": 5.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-15T06:00Z",
+"prob": 0.0028,
+"level": "none",
+"ivt": 6.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-15T12:00Z",
+"prob": 0.0055,
+"level": "none",
+"ivt": 15.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-15T18:00Z",
+"prob": 0.0065,
+"level": "none",
+"ivt": 23.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-16T00:00Z",
+"prob": 0.006,
+"level": "none",
+"ivt": 52.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-16T06:00Z",
+"prob": 0.0053,
+"level": "none",
+"ivt": 60.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-16T12:00Z",
+"prob": 0.0093,
+"level": "none",
+"ivt": 51.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-16T18:00Z",
+"prob": 0.0074,
+"level": "none",
+"ivt": 49.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-17T00:00Z",
+"prob": 0.0092,
+"level": "none",
+"ivt": 30.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-17T06:00Z",
+"prob": 0.0196,
+"level": "none",
+"ivt": 6.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-17T12:00Z",
+"prob": 0.0581,
+"level": "watch",
+"ivt": 9.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-17T18:00Z",
+"prob": 0.0582,
+"level": "watch",
+"ivt": 10.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-18T00:00Z",
+"prob": 0.0925,
+"level": "watch",
+"ivt": 3.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-18T06:00Z",
+"prob": 0.5173,
+"level": "warning",
+"ivt": 5.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-18T12:00Z",
+"prob": 0.6038,
+"level": "warning",
+"ivt": 14.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-18T18:00Z",
+"prob": 0.3951,
+"level": "watch",
+"ivt": 25.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-19T00:00Z",
+"prob": 0.1369,
+"level": "watch",
+"ivt": 77.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-19T06:00Z",
+"prob": 0.0255,
+"level": "none",
+"ivt": 122.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-19T12:00Z",
+"prob": 0.0137,
+"level": "none",
+"ivt": 131.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-19T18:00Z",
+"prob": 0.0103,
+"level": "none",
+"ivt": 112.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-20T00:00Z",
+"prob": 0.0168,
+"level": "none",
+"ivt": 105.7,
+"ar_now": false
+},
+{
+"cycle": "2026-11-20T06:00Z",
+"prob": 0.0082,
+"level": "none",
+"ivt": 97.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-20T12:00Z",
+"prob": 0.003,
+"level": "none",
+"ivt": 54.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-20T18:00Z",
+"prob": 0.0004,
+"level": "none",
+"ivt": 22.1,
+"ar_now": false
+},
+{
+"cycle": "2026-11-21T00:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 26.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-21T06:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 20.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-21T12:00Z",
+"prob": 0.0002,
+"level": "none",
+"ivt": 15.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-21T18:00Z",
+"prob": 0.0003,
+"level": "none",
+"ivt": 13.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-22T00:00Z",
+"prob": 0.001,
+"level": "none",
+"ivt": 26.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-22T06:00Z",
+"prob": 0.0016,
+"level": "none",
+"ivt": 23.5,
+"ar_now": false
+},
+{
+"cycle": "2026-11-22T12:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 10.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-22T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 7.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-23T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 5.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-23T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 2.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-23T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 3.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-23T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 5.0,
+"ar_now": false
+},
+{
+"cycle": "2026-11-24T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 7.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-24T06:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 23.3,
+"ar_now": false
+},
+{
+"cycle": "2026-11-24T12:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 32.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-24T18:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 36.3,
+"ar_now": false
+},
+{
+"cycle": "2026-11-25T00:00Z",
+"prob": 0.0,
+"level": "none",
+"ivt": 32.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-25T06:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 36.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-25T12:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 29.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-25T18:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 19.9,
+"ar_now": false
+},
+{
+"cycle": "2026-11-26T00:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 22.8,
+"ar_now": false
+},
+{
+"cycle": "2026-11-26T06:00Z",
+"prob": 0.0001,
+"level": "none",
+"ivt": 9.7,
+"ar_now": false
+},
+{
+"cycle": "2026-11-26T12:00Z",
+"prob": 0.0009,
+"level": "none",
+"ivt": 4.5,
+"ar_now": false
+},
+{
+"cycle": "2026-11-26T18:00Z",
+"prob": 0.0019,
+"level": "none",
+"ivt": 4.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-27T00:00Z",
+"prob": 0.0117,
+"level": "none",
+"ivt": 3.2,
+"ar_now": false
+},
+{
+"cycle": "2026-11-27T06:00Z",
+"prob": 0.0118,
+"level": "none",
+"ivt": 4.6,
+"ar_now": false
+},
+{
+"cycle": "2026-11-27T12:00Z",
+"prob": 0.0153,
+"level": "none",
+"ivt": 3.3,
+"ar_now": false
+},
+{
+"cycle": "2026-11-27T18:00Z",
+"prob": 0.0237,
+"level": "none",
+"ivt": 3.4,
+"ar_now": false
+},
+{
+"cycle": "2026-11-28T00:00Z",
+"prob": 0.0175,
+"level": "none",
+"ivt": 2.7,
+"ar_now": false
+},
+{
+"cycle": "2026-11-28T06:00Z",
+"prob": 0.0153,
+"level": "none",
+"ivt": 2.5,
+"ar_now": false
+}
+]
